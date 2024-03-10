@@ -2,25 +2,21 @@ import OpenAI from "openai";
 
 const openai = new OpenAI();
 
-interface ChatGPTProps {
-  query: string;
-}
-
-const ChatGPT: React.FC<ChatGPTProps> = async ({ query }) => {
-  let output;
+const ChatGPT = async (query: string): Promise<string | null | undefined> => {
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: query }],
       model: "gpt-3.5-turbo",
-      max_tokens: 10,
+      max_tokens: 50,
     });
 
-    output = completion.choices[0].message.content;
+    return completion.choices[0].message.content
+      ? completion.choices[0].message.content
+      : "";
   } catch (error) {
     console.error("Error fetching response from ChatGPT:", error);
+    return "";
   }
-
-  return output;
 };
 
 export default ChatGPT;
