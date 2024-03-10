@@ -1,5 +1,3 @@
-import { edgeServerAppPaths } from "next/dist/build/webpack/plugins/pages-manifest-plugin";
-
 interface OptionListProps {
   items: string[];
 }
