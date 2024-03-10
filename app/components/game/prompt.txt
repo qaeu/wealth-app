@@ -1,0 +1,11 @@
+Give 4 items I can buy with $100. Output in JSON:
+{
+    "items": [
+        "Wireless headphones",
+        "Rice cooker",
+        "Cashmere scarf",
+        "Bottle of aged whiskey"
+        ]
+}
+
+Give 4 items I can buy with ${wealth}. Output in JSON:
