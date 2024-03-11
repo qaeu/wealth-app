@@ -8,10 +8,16 @@ const openai = new OpenAI();
 export const queryChatGPT = async (
   currentItem: string
 ): Promise<string | null | undefined> => {
-  const promptFromFile: string = await fs.readFile(
-    process.cwd() + "/app/components/game/prompt.txt",
-    "utf8"
-  );
+  let promptFromFile: string;
+  try {
+    promptFromFile = await fs.readFile(process.cwd() + "/prompt.txt", "utf8");
+  } catch {
+    // For local deploys
+    promptFromFile = await fs.readFile(
+      process.cwd() + "/public/prompt.txt",
+      "utf8"
+    );
+  }
   const prompt: string = promptFromFile.replace("${item}", currentItem);
 
   try {
