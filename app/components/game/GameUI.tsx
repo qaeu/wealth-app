@@ -15,7 +15,12 @@ const GameUI: React.FC<GameUIProps> = ({
   initOptions,
   initPrompt,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentItem, setCurrentItem] = useState(initItem);
+  const [options, setOptions] = useState(initOptions);
+
   const handleButtonClick = async (buttonText: string) => {
+    setIsLoading(true);
     setCurrentItem(buttonText);
 
     const prompt: string = initPrompt.replace("${item}", currentItem);
@@ -27,10 +32,8 @@ const GameUI: React.FC<GameUIProps> = ({
         console.error("Error parsing ChatGPT response:", itemsStr, error);
       }
     }
+    setIsLoading(false);
   };
-
-  const [currentItem, setCurrentItem] = useState(initItem);
-  const [options, setOptions] = useState(initOptions);
 
   const dialogue = "You have " + currentItem + ".\nSelect an item to trade for";
 
@@ -39,7 +42,14 @@ const GameUI: React.FC<GameUIProps> = ({
       <p className="my-10 border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl static w-auto rounded-xl border bg-gray-200 p-4">
         {dialogue}
       </p>
-      <OptionList items={options} handleButtonClick={handleButtonClick} />
+      {isLoading ? (
+        <OptionList
+          items={options.map(() => "...")}
+          handleButtonClick={() => {}}
+        />
+      ) : (
+        <OptionList items={options} handleButtonClick={handleButtonClick} />
+      )}
     </div>
   );
 };
