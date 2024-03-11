@@ -35,12 +35,19 @@ const GameUI: React.FC<GameUIProps> = ({
     setIsLoading(false);
   };
 
-  const dialogue = "You have " + currentItem + ".\nSelect an item to trade for";
+  const dialogue = [
+    "You have " + currentItem + ". ",
+    "Select an item to trade for:",
+  ];
 
   return (
     <div className="z-10 max-w-5xl font-mono text-sm">
       <p className="my-10 border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl static w-auto rounded-xl border bg-gray-200 p-4">
-        {dialogue}
+        {dialogue.map((txt) => (
+          <>
+            {txt} <br />
+          </>
+        ))}
       </p>
       {isLoading ? (
         <OptionList
