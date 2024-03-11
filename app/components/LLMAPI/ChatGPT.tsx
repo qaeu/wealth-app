@@ -1,25 +1,12 @@
 "use server";
 
 import OpenAI from "openai";
-import { promises as fs } from "fs";
 
 const openai = new OpenAI();
 
 export const queryChatGPT = async (
-  currentItem: string
+  prompt: string
 ): Promise<string | null | undefined> => {
-  let promptFromFile: string;
-  try {
-    promptFromFile = await fs.readFile(process.cwd() + "/prompt.txt", "utf8");
-  } catch {
-    // For local deploys
-    promptFromFile = await fs.readFile(
-      process.cwd() + "/public/prompt.txt",
-      "utf8"
-    );
-  }
-  const prompt: string = promptFromFile.replace("${item}", currentItem);
-
   try {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "system", content: prompt }],

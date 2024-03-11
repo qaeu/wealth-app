@@ -7,13 +7,19 @@ import OptionList from "./OptionList/OptionList";
 interface GameUIProps {
   initItem: string;
   initOptions: string[];
+  initPrompt: string;
 }
 
-const GameUI: React.FC<GameUIProps> = ({ initItem, initOptions }) => {
+const GameUI: React.FC<GameUIProps> = ({
+  initItem,
+  initOptions,
+  initPrompt,
+}) => {
   const handleButtonClick = async (buttonText: string) => {
     setCurrentItem(buttonText);
 
-    const itemsStr: string | null | undefined = await queryChatGPT(currentItem);
+    const prompt: string = initPrompt.replace("${item}", currentItem);
+    const itemsStr: string | null | undefined = await queryChatGPT(prompt);
     if (itemsStr) {
       try {
         setOptions(JSON.parse(itemsStr).items);
