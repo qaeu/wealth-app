@@ -24,13 +24,11 @@ const GameUI: React.FC<GameUIProps> = ({
     setCurrentItem(buttonText);
 
     const prompt: string = initPrompt.replace("${item}", currentItem);
-    const itemsStr: string | null | undefined = await queryChatGPT(prompt);
-    if (itemsStr) {
-      try {
-        setOptions(JSON.parse(itemsStr).items);
-      } catch (error) {
-        console.error("Error parsing ChatGPT response:", itemsStr, error);
-      }
+    try {
+      const newItems: string[] = await queryChatGPT(prompt);
+      setOptions(newItems);
+    } catch (error) {
+      console.error(error);
     }
     setIsLoading(false);
   };

@@ -12,13 +12,10 @@ const Game = async () => {
   );
   const prompt: string = promptFromFile.replace("${item}", currentItem);
 
-  const itemsStr: string | null | undefined = await queryChatGPT(prompt);
-  if (itemsStr) {
-    try {
-      tradeOptions = JSON.parse(itemsStr).items;
-    } catch (error) {
-      console.error("Error parsing ChatGPT response:", itemsStr, error);
-    }
+  try {
+    tradeOptions = await queryChatGPT(prompt);
+  } catch (error) {
+    console.error(error);
   }
 
   return (
