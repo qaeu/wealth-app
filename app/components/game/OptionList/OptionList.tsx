@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 interface OptionListProps {
   items: string[];
   handleButtonClick: (event: any) => void;
