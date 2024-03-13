@@ -1,7 +1,7 @@
 "use server";
 
 import OpenAI from "openai";
-import { encoding_for_model } from "tiktoken";
+import { encodingForModel } from "js-tiktoken";
 
 const MODEL = "gpt-3.5-turbo";
 const IGNORE_STRINGS: string[] = ["a", "an", " of"];
@@ -13,11 +13,10 @@ const PARAMS = {
 };
 
 const openai = new OpenAI();
-const enc = encoding_for_model(MODEL);
 let previousTokens: number[] = [];
 
 export const queryChatGPT = async (prompt: string): Promise<string[]> => {
-  const parseResponse = (response: string): string[] => {
+  const parseResponse = (response: string) => {
     try {
       const options: string[] = JSON.parse(response).items;
       setPreviousTokens(options);
@@ -27,22 +26,20 @@ export const queryChatGPT = async (prompt: string): Promise<string[]> => {
     }
   };
 
-  const setPreviousTokens = (options: string[]): void => {
-    const tokens: number[][] = options.map((option) =>
-      Array.from(enc.encode(option))
-    );
-    previousTokens = tokens.reduce((prev, token) => [...prev, ...token]);
-
-    const ignoreStringsTokens: number[][] = IGNORE_STRINGS.map((item) =>
-      Array.from(enc.encode(item))
-    );
-    const ignoreTokens: number[] = ignoreStringsTokens.reduce((prev, token) => [
-      ...prev,
-      ...token,
-    ]);
+  const setPreviousTokens = (options: string[]) => {
+    previousTokens = tokeniseAll(options);
+    const ignoreTokens: number[] = tokeniseAll(IGNORE_STRINGS);
     previousTokens = previousTokens.filter(
       (token) => !ignoreTokens.includes(token)
     );
+  };
+
+  const tokeniseAll = (input: string[]): number[] => {
+    const enc = encodingForModel(MODEL);
+    const tokens: number[][] = input.map((option) =>
+      Array.from(enc.encode(option))
+    );
+    return tokens.reduce((prev, token) => [...prev, ...token]);
   };
 
   try {
