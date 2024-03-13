@@ -1,31 +1,88 @@
 "use client";
 
 import { useState } from "react";
-import { queryChatGPT } from "../LLMAPI/ChatGPT";
+import { queryOptions, queryValue } from "../LLMAPI/ChatGPT";
 import OptionList from "./OptionList/OptionList";
+import CATEGORIES from "./Categories";
 
 interface GameUIProps {
   initItem: string;
+  initCategory: string;
   initOptions: string[];
   initPrompt: string;
 }
 
+interface GameState {
+  currentItem: string;
+  currentCategory: string;
+  loopCount: number;
+}
+
 const GameUI: React.FC<GameUIProps> = ({
   initItem,
+  initCategory,
   initOptions,
   initPrompt,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentItem, setCurrentItem] = useState(initItem);
+  const [gameState, setGameState] = useState<GameState>({
+    currentItem: initItem,
+    currentCategory: initCategory,
+    loopCount: 0,
+  });
   const [options, setOptions] = useState(initOptions);
+
+  const valuePrompt: string =
+    "Give a single number estimate in USD, for the value of (a jellybean):\n" +
+    "0.1\n\n" +
+    "Give a single number estimate in USD, for the value of (a brand new electric car):\n" +
+    "35000\n\n" +
+    "Give a single number estimate in USD, for the value of (an abandoned factory):\n" +
+    "400000\n\n" +
+    "Give a single number estimate in USD, for the value of (luxury car dealership franchise):\n" +
+    "200000000\n\n" +
+    "Give a single number estimate in USD, for the value of (" +
+    gameState.currentItem +
+    "):";
+
+  const updateCategory = async () => {
+    let newValue: number = 0;
+    try {
+      newValue = await queryValue(valuePrompt);
+    } catch (error) {
+      throw error;
+    }
+    console.log(newValue);
+
+    let bestCat: string = CATEGORIES[0].title;
+    for (const cat of CATEGORIES) {
+      if (newValue >= cat.breakpoint) {
+        bestCat = cat.title;
+      } else {
+        break;
+      }
+    }
+    return bestCat;
+  };
 
   const handleButtonClick = async (buttonText: string) => {
     setIsLoading(true);
-    setCurrentItem(buttonText);
+    setGameState({
+      currentItem: buttonText,
+      currentCategory:
+        gameState.loopCount % 2 == 1
+          ? await updateCategory()
+          : gameState.currentCategory,
+      loopCount: gameState.loopCount + 1,
+    });
 
-    const prompt: string = initPrompt.replace("${item}", currentItem);
+    console.log(gameState.currentCategory);
+
+    const prompt: string = initPrompt
+      .replace("${item}", gameState.currentItem)
+      .replace("${category}", gameState.currentCategory);
     try {
-      const newItems: string[] = await queryChatGPT(prompt);
+      const newItems: string[] = await queryOptions(prompt);
       setOptions(newItems);
     } catch (error) {
       console.error(error);
@@ -34,7 +91,7 @@ const GameUI: React.FC<GameUIProps> = ({
   };
 
   const dialogue = [
-    "You have " + currentItem + ". ",
+    "You have " + gameState.currentItem + ". ",
     "Select an item to trade for:",
   ];
 

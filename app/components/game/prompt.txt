@@ -1,5 +1,7 @@
 Let's play a game where I trade with a variety of random items.
-Give 4 items I can trade for with (a studio microphone). Output in JSON:
+Give 4 items I can trade for with (a studio mic).
+Rough category is (high-end consumer products).
+Output in JSON:
 {
     "items": [
         "wireless headphones",
@@ -9,14 +11,18 @@ Give 4 items I can trade for with (a studio microphone). Output in JSON:
         ]
 }
 
-Give 4 items I can trade for with (an abandoned factory). Output in JSON:
+Give 4 items I can trade for with (an abandoned factory). 
+Rough category is (real estate and small business).
+Output in JSON:
 {
     "items": [
         "a classic car",
         "an expensive highrise apartment",
         "a local courier business",
-        "a derelict farm"
+        "200 acres of derelict farmland"
         ]
 }
 
-Give 4 items I can trade for with (${item}). Output in JSON:
+Give 4 items I can trade for with (${item}).
+Rough category is (${category}).
+Output in JSON:
