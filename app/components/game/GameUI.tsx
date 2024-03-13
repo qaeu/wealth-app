@@ -52,7 +52,6 @@ const GameUI: React.FC<GameUIProps> = ({
     } catch (error) {
       throw error;
     }
-    console.log(newValue);
 
     let bestCat: string = CATEGORIES[0].title;
     for (const cat of CATEGORIES) {
@@ -75,8 +74,6 @@ const GameUI: React.FC<GameUIProps> = ({
           : gameState.currentCategory,
       loopCount: gameState.loopCount + 1,
     });
-
-    console.log(gameState.currentCategory);
 
     const prompt: string = initPrompt
       .replace("${item}", gameState.currentItem)

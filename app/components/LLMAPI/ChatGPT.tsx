@@ -17,7 +17,6 @@ let previousTokens: number[] = [];
 
 export const queryValue = async (prompt: string): Promise<number> => {
   const parseResponse = (response: string) => {
-    console.log(response);
     try {
       const value: number = Number(response);
       return value;
