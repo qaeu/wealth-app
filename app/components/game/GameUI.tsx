@@ -88,10 +88,10 @@ const GameUI: React.FC<GameUIProps> = ({
   return (
     <div className="z-10 max-w-5xl font-mono text-sm">
       <p className="my-10 border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl static w-auto rounded-xl border bg-gray-200 p-4">
-        {dialogue.map((txt) => (
-          <>
+        {dialogue.map((txt, i) => (
+          <span key={i}>
             {txt} <br />
-          </>
+          </span>
         ))}
       </p>
       {isLoading ? (

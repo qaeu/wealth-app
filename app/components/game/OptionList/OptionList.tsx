@@ -16,9 +16,9 @@ const OptionList: React.FC<OptionListProps> = ({
 
   return (
     <div className="flex flex-col">
-      {items.map((item, index) => (
+      {items.map((item, i) => (
         <button
-          key={index}
+          key={i}
           className="mx-2 my-2 px-4 py-2 bg-neutral-50 text-slate-900 rounded-md"
           onClick={onClickHandler}
         >
