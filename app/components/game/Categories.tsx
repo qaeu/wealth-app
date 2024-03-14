@@ -6,18 +6,33 @@ const CATEGORIES = [
   { title: "high-end consumer products", breakpoint: 250 },
   { title: "economy vehicles and luxury goods", breakpoint: 2000 },
   { title: "mid-range vehicles and luxury goods", breakpoint: 25 * 1000 },
-  { title: "real estate and local businesses", breakpoint: 100 * 1000 },
   {
-    title: "luxury residential real estate and regional businesses",
+    title: "low-end residential real estate and local business",
+    breakpoint: 100 * 1000,
+  },
+  {
+    title: "luxury residential real estate and regional business",
     breakpoint: 5 * 1000 ** 2,
   },
   {
-    title: "high-end commercial real estate and regional businesses",
-    breakpoint: 25 * 1000 ** 2,
+    title: "commercial real estate and regional businesses",
+    breakpoint: 15 * 1000 ** 2,
   },
   {
-    title: "international businesses and equity",
+    title: "national businesses and private islands",
+    breakpoint: 50 * 1000 ** 2,
+  },
+  {
+    title: "international franchises and equity",
     breakpoint: 100 * 1000 ** 2,
+  },
+  {
+    title: "multiple international franchises and equity portfolio",
+    breakpoint: 500 * 1000 ** 2,
+  },
+  {
+    title: "multinational enterprises and influence",
+    breakpoint: 5 * 1000 ** 3,
   },
   {
     title: "global corporations and influence",
