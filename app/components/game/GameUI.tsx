@@ -15,6 +15,7 @@ interface GameUIProps {
 interface GameState {
   currentItem: string;
   currentCategory: string;
+  options: string[];
   loopCount: number;
 }
 
@@ -27,12 +28,12 @@ const GameUI: React.FC<GameUIProps> = ({
   const [gameState, setGameState] = useState<GameState>({
     currentItem: initItem,
     currentCategory: initCategory,
+    options: initOptions,
     loopCount: 0,
   });
-  const [options, setOptions] = useState(initOptions);
-  const valuePrompt: string = getValuePrompt(gameState.currentItem);
 
-  const updateCategory = async () => {
+  const updateCategory = async (newItem: string) => {
+    const valuePrompt = getValuePrompt(newItem);
     let newValue: number = 0;
     try {
       newValue = await queryValue(valuePrompt);
@@ -53,24 +54,27 @@ const GameUI: React.FC<GameUIProps> = ({
 
   const handleButtonClick = async (buttonText: string) => {
     setIsLoading(true);
-    setGameState({
-      currentItem: buttonText,
-      currentCategory:
-        gameState.loopCount % 2 == 1
-          ? await updateCategory()
-          : gameState.currentCategory,
-      loopCount: gameState.loopCount + 1,
-    });
+    const selectedItem = buttonText;
+    const oldItem = gameState.currentItem;
+    setGameState({ ...gameState, currentItem: selectedItem });
 
-    const prompt: string = getOptionsPrompt(
-      gameState.currentItem,
-      gameState.currentCategory
-    );
+    const updatedCategory =
+      gameState.loopCount % 2 == 1
+        ? await updateCategory(buttonText)
+        : gameState.currentCategory;
+
+    const prompt: string = getOptionsPrompt(buttonText, updatedCategory);
     try {
       const newItems: string[] = await queryOptions(prompt);
-      setOptions(newItems);
+      setGameState({
+        currentItem: buttonText,
+        currentCategory: updatedCategory,
+        options: newItems,
+        loopCount: gameState.loopCount + 1,
+      });
     } catch (error) {
       console.error(error);
+      setGameState({ ...gameState, currentItem: oldItem });
     }
     setIsLoading(false);
   };
@@ -91,11 +95,14 @@ const GameUI: React.FC<GameUIProps> = ({
       </p>
       {isLoading ? (
         <OptionList
-          items={options.map(() => "...")}
+          items={gameState.options.map(() => "...")}
           handleButtonClick={() => {}}
         />
       ) : (
-        <OptionList items={options} handleButtonClick={handleButtonClick} />
+        <OptionList
+          items={gameState.options}
+          handleButtonClick={handleButtonClick}
+        />
       )}
     </div>
   );
