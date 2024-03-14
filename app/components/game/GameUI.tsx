@@ -4,12 +4,12 @@ import { useState } from "react";
 import { queryOptions, queryValue } from "../LLMAPI/ChatGPT";
 import OptionList from "./OptionList/OptionList";
 import CATEGORIES from "./Categories";
+import { getOptionsPrompt, getValuePrompt } from "./Prompts";
 
 interface GameUIProps {
   initItem: string;
   initCategory: string;
   initOptions: string[];
-  initPrompt: string;
 }
 
 interface GameState {
@@ -22,7 +22,6 @@ const GameUI: React.FC<GameUIProps> = ({
   initItem,
   initCategory,
   initOptions,
-  initPrompt,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
@@ -31,19 +30,7 @@ const GameUI: React.FC<GameUIProps> = ({
     loopCount: 0,
   });
   const [options, setOptions] = useState(initOptions);
-
-  const valuePrompt: string =
-    "Give a single number estimate in USD, for the value of (a jellybean):\n" +
-    "0.1\n\n" +
-    "Give a single number estimate in USD, for the value of (a brand new electric car):\n" +
-    "35000\n\n" +
-    "Give a single number estimate in USD, for the value of (an abandoned factory):\n" +
-    "400000\n\n" +
-    "Give a single number estimate in USD, for the value of (luxury car dealership franchise):\n" +
-    "200000000\n\n" +
-    "Give a single number estimate in USD, for the value of (" +
-    gameState.currentItem +
-    "):";
+  const valuePrompt: string = getValuePrompt(gameState.currentItem);
 
   const updateCategory = async () => {
     let newValue: number = 0;
@@ -75,9 +62,10 @@ const GameUI: React.FC<GameUIProps> = ({
       loopCount: gameState.loopCount + 1,
     });
 
-    const prompt: string = initPrompt
-      .replace("${item}", gameState.currentItem)
-      .replace("${category}", gameState.currentCategory);
+    const prompt: string = getOptionsPrompt(
+      gameState.currentItem,
+      gameState.currentCategory
+    );
     try {
       const newItems: string[] = await queryOptions(prompt);
       setOptions(newItems);
@@ -88,8 +76,8 @@ const GameUI: React.FC<GameUIProps> = ({
   };
 
   const dialogue = [
-    "You have " + gameState.currentItem + ". ",
-    "Select an item to trade for:",
+    `You have ${gameState.currentItem}. `,
+    `Select an item to trade for:`,
   ];
 
   return (
