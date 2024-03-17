@@ -31,15 +31,13 @@ category: (${category}).
 Output in JSON:`;
 
 export const getValuePrompt = (item: string): string =>
-  `Give an estimated value in USD for the given item.
-Output only a single raw number.
+  `Estimate generous upper and lower bound values in USD for the given item.
+Output only 2 raw numbers separated by a space.
 
-(🍬 a jellybean):
-0.1
-(⚡ a brand new electric car):
-35000
+(⚡ 2 brand new electric cars):
+30000 200000
 (🏚️ an abandoned factory):
-400000
+200000 1000000
 (🏬 luxury car dealership franchise):
-200000000
+200000000 5000000000
 (${item}):`;

@@ -1,6 +1,5 @@
 const CATEGORIES = [
-  { title: "fractions of individual small items", breakpoint: 0 },
-  { title: "individual small items", breakpoint: 1 },
+  { title: "individual small items", breakpoint: 0 },
   { title: "cheap consumer products", breakpoint: 10 },
   { title: "mid-range consumer products", breakpoint: 50 },
   { title: "high-end consumer products", breakpoint: 250 },

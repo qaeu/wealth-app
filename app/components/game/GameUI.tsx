@@ -36,9 +36,14 @@ const GameUI: React.FC<GameUIProps> = ({
     const valuePrompt = getValuePrompt(newItem);
     let newValue: number = 0;
     try {
-      newValue = await queryValue(valuePrompt);
+      const boundEstimates = await queryValue(valuePrompt);
+      newValue =
+        Math.floor(
+          Math.random() *
+            (boundEstimates.upperBound - boundEstimates.lowerBound + 1)
+        ) + boundEstimates.lowerBound; // Random value within the estimated bounds
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return gameState.currentCategory;
     }
 

@@ -3,6 +3,11 @@
 import OpenAI from "openai";
 import { encodingForModel } from "js-tiktoken";
 
+interface ValueEstimate {
+  lowerBound: number;
+  upperBound: number;
+}
+
 const MODEL = "gpt-3.5-turbo";
 const IGNORE_STRINGS: string[] = ["a", "an", " of"];
 const PARAMS = {
@@ -15,11 +20,11 @@ const PARAMS = {
 const openai = new OpenAI();
 let previousTokens: number[] = [];
 
-export const queryValue = async (prompt: string): Promise<number> => {
+export const queryValue = async (prompt: string): Promise<ValueEstimate> => {
   const parseResponse = (response: string) => {
     try {
-      const value: number = Number(response);
-      return value;
+      const values = response.split(" ").map((val) => Number(val));
+      return { lowerBound: values[0], upperBound: values[1] };
     } catch (error) {
       throw error;
     }
