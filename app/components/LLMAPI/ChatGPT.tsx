@@ -6,9 +6,9 @@ import { encodingForModel } from "js-tiktoken";
 const MODEL = "gpt-3.5-turbo";
 const IGNORE_STRINGS: string[] = ["a", "an", " of"];
 const PARAMS = {
-  maxTokens: 60,
+  maxTokens: 70,
   frequencyPenalty: 0.2,
-  temperature: 1.1,
+  temperature: 1.3,
   logitBiasVal: -5,
 };
 
