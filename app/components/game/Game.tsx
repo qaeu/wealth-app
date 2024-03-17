@@ -5,7 +5,7 @@ import { getOptionsPrompt } from "./Prompts";
 
 const Game = async () => {
   const startItem: string = "📎 a paperclip";
-  const startCategory: string = CATEGORIES[1].title;
+  const startCategory: string = CATEGORIES[0].titles[0];
   let tradeOptions: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
   const prompt: string = getOptionsPrompt(startItem, startCategory);
 

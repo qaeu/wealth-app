@@ -47,15 +47,16 @@ const GameUI: React.FC<GameUIProps> = ({
       return gameState.currentCategory;
     }
 
-    let bestCat: string = CATEGORIES[0].title;
+    let bestCat = CATEGORIES[0];
     for (const cat of CATEGORIES) {
       if (newValue >= cat.breakpoint) {
-        bestCat = cat.title;
+        bestCat = cat;
       } else {
         break;
       }
     }
-    return bestCat;
+    const randomIndex = Math.floor(Math.random() * bestCat.titles.length);
+    return bestCat.titles[randomIndex];
   };
 
   const handleButtonClick = async (buttonText: string) => {

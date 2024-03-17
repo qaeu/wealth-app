@@ -1,48 +1,54 @@
 const CATEGORIES = [
-  { title: "individual small items", breakpoint: 0 },
-  { title: "cheap consumer products", breakpoint: 10 },
-  { title: "mid-range consumer products", breakpoint: 50 },
-  { title: "high-end consumer products", breakpoint: 250 },
-  { title: "economy vehicles and luxury goods", breakpoint: 2000 },
-  { title: "mid-range vehicles and luxury goods", breakpoint: 25 * 1000 },
   {
-    title: "low-end residential real estate and local business",
+    titles: ["random tiny things", "fractions of consumables"],
+    breakpoint: 0,
+  },
+  { titles: ["cheap accessories", "food products"], breakpoint: 10 },
+  {
+    titles: ["cheap home decor", "mid-range consumer products"],
+    breakpoint: 50,
+  },
+  { titles: ["high-end consumer products"], breakpoint: 250 },
+  { titles: ["economy vehicles and luxury goods"], breakpoint: 2000 },
+  { titles: ["mid-range vehicles and luxury goods"], breakpoint: 25 * 1000 },
+  {
+    titles: ["affordable housing", "small local business"],
     breakpoint: 100 * 1000,
   },
   {
-    title: "luxury residential real estate and regional business",
+    titles: ["luxury properties", "regional business"],
     breakpoint: 5 * 1000 ** 2,
   },
   {
-    title: "commercial real estate and regional businesses",
+    titles: ["commercial real estate", "investments"],
     breakpoint: 15 * 1000 ** 2,
   },
   {
-    title: "national businesses and private islands",
+    titles: ["national businesses and private islands"],
     breakpoint: 50 * 1000 ** 2,
   },
   {
-    title: "international franchises and equity",
+    titles: ["continental franchises and equity"],
     breakpoint: 100 * 1000 ** 2,
   },
   {
-    title: "multiple international franchises and equity portfolio",
+    titles: ["international franchises", "equity portfolio"],
     breakpoint: 500 * 1000 ** 2,
   },
   {
-    title: "multinational enterprises and influence",
+    titles: ["multinational enterprises and influence"],
     breakpoint: 5 * 1000 ** 3,
   },
   {
-    title: "global corporations and influence",
+    titles: ["global corporations and influence"],
     breakpoint: 50 * 1000 ** 3,
   },
   {
-    title: "global social influence and syndicates",
+    titles: ["global social influence and syndicates"],
     breakpoint: 500 * 1000 ** 3,
   },
   {
-    title: "countries and global movements",
+    titles: ["nations and global movements"],
     breakpoint: 5 * 1000 ** 4,
   },
 ];
