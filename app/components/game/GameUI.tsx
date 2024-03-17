@@ -39,7 +39,7 @@ const GameUI: React.FC<GameUIProps> = ({
       newValue = await queryValue(valuePrompt);
     } catch (error) {
       console.log(error);
-      return CATEGORIES[1].title;
+      return gameState.currentCategory;
     }
 
     let bestCat: string = CATEGORIES[0].title;
