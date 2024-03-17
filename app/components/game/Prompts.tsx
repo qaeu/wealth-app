@@ -1,9 +1,9 @@
 export const getOptionsPrompt = (item: string, category: string): string =>
-  `Let's play a game where I trade with a variety of random items.
-Give 4 items I can trade for with the stated item, given a rough category for creativity.
+  `This is a game where we trade a variety of random items.
+Offer 4 items to trade for with similar value, given a rough category for creativity.
 
-item: (🎙️ a studio mic).
-category: (high-end consumer products).
+item: 🎙️ a studio mic
+category: high-end consumer products
 Output in JSON:
 {
     "items": [
@@ -14,8 +14,8 @@ Output in JSON:
         ]
 }
 
-item: (🏚️ an abandoned factory). 
-category: (real estate and small business).
+item: 🏚️ an abandoned factory 
+category: real estate and small business
 Output in JSON:
 {
     "items": [
@@ -26,8 +26,8 @@ Output in JSON:
         ]
 }
 
-item: (${item}).
-category: (${category}).
+item: ${item}
+category: ${category}
 Output in JSON:`;
 
 export const getValuePrompt = (item: string): string =>
