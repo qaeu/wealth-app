@@ -4,7 +4,7 @@
 
 :root {
   --foreground: #000;
-  --background-start: theme("colors.zinc.300");
+  --background-start: theme("colors.zinc.200");
   --background-end: #fff;
 }
 
