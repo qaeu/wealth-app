@@ -67,18 +67,19 @@ const GameUI: React.FC<GameUIProps> = ({
 
     const updatedCategory =
       gameState.loopCount % 2 == 1
-        ? await updateCategory(buttonText)
+        ? await updateCategory(selectedItem)
         : gameState.currentCategory;
 
-    const prompt: string = getOptionsPrompt(buttonText, updatedCategory);
+    const prompt: string = getOptionsPrompt(selectedItem, updatedCategory);
     try {
       const newItems: string[] = await queryOptions(prompt);
       setGameState({
-        currentItem: buttonText,
+        currentItem: selectedItem,
         currentCategory: updatedCategory,
         options: newItems,
         loopCount: gameState.loopCount + 1,
       });
+      document.title = selectedItem;
     } catch (error) {
       console.error(error);
       setGameState({ ...gameState, currentItem: oldItem });
