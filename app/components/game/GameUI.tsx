@@ -92,8 +92,8 @@ const GameUI: React.FC<GameUIProps> = ({
   ];
 
   return (
-    <div className="z-10 max-w-5xl font-mono text-sm">
-      <p className="my-10 border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl static w-auto rounded-xl border bg-gray-200 p-4">
+    <div className="z-10 max-w-5xl font-mono text-sm text-slate-900">
+      <p className="static w-auto my-10 p-4 border border-gray-400 rounded-xl bg-gray-200">
         {dialogue.map((txt, i) => (
           <span key={i}>
             {txt} <br />

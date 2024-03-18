@@ -19,7 +19,7 @@ const OptionList: React.FC<OptionListProps> = ({
       {items.map((item, i) => (
         <button
           key={i}
-          className="mx-2 my-2 px-4 py-2 bg-neutral-50 text-slate-900 rounded-md"
+          className="mx-2 my-2 px-4 py-2 bg-gray-50 text-slate-900 rounded-md shadow transition-shadow hover:shadow-lg"
           onClick={onClickHandler}
         >
           {item}
