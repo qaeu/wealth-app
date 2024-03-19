@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { queryOptions, queryValue } from "../LLMAPI/ChatGPT";
 import OptionList from "./OptionList/OptionList";
 import CATEGORIES from "./Categories";
 import { getOptionsPrompt, getValuePrompt } from "./Prompts";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 interface GameUIProps {
   initItem: string;
@@ -24,13 +25,24 @@ const GameUI: React.FC<GameUIProps> = ({
   initCategory,
   initOptions,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [gameState, setGameState] = useState<GameState>({
-    currentItem: initItem,
-    currentCategory: initCategory,
-    options: initOptions,
-    loopCount: 0,
-  });
+  const loadSaveState = (): GameState => {
+    let state = initState;
+    const storedStateStr = localStorage.getItem("gameState");
+    if (storedStateStr) {
+      try {
+        const storedState = JSON.parse(storedStateStr);
+        state = storedState;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    return state;
+  };
+
+  const setGameState = (newState: GameState) => {
+    localStorage.setItem("gameState", JSON.stringify(newState));
+    setActiveGameState(newState);
+  };
 
   const updateCategory = async (newItem: string) => {
     const valuePrompt = getValuePrompt(newItem);
@@ -79,13 +91,32 @@ const GameUI: React.FC<GameUIProps> = ({
         options: newItems,
         loopCount: gameState.loopCount + 1,
       });
-      document.title = selectedItem;
     } catch (error) {
       console.error(error);
       setGameState({ ...gameState, currentItem: oldItem });
     }
     setIsLoading(false);
   };
+
+  const initState: GameState = {
+    currentItem: initItem,
+    currentCategory: initCategory,
+    options: initOptions,
+    loopCount: 0,
+  };
+
+  const [isClient, setIsClient] = useState(false);
+  const [gameState, setActiveGameState] = useState<GameState>(initState);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setActiveGameState(loadSaveState());
+  }, []);
+
+  if (isClient) {
+    document.title = gameState.currentItem;
+  }
 
   const dialogue = [
     `You have ${gameState.currentItem}. `,
@@ -94,24 +125,24 @@ const GameUI: React.FC<GameUIProps> = ({
 
   return (
     <div className="z-10 max-w-lg font-mono text-sm text-slate-900">
-      <p className="static w-auto my-10 p-4 border-b border-gray-400">
-        {dialogue.map((txt, i) => (
-          <span key={i}>
-            {txt} <br />
-          </span>
-        ))}
-      </p>
-      {isLoading ? (
-        <OptionList
-          items={gameState.options.map(() => "...")}
-          handleButtonClick={() => {}}
-        />
-      ) : (
-        <OptionList
-          items={gameState.options}
-          handleButtonClick={handleButtonClick}
-        />
-      )}
+        <p className="static w-auto my-10 p-4 border-b border-gray-400">
+          {dialogue.map((txt, i) => (
+            <span key={i}>
+              {txt} <br />
+            </span>
+          ))}
+        </p>
+        {isLoading ? (
+          <OptionList
+            items={gameState.options.map(() => "...")}
+            handleButtonClick={() => {}}
+          />
+        ) : (
+          <OptionList
+            items={gameState.options}
+            handleButtonClick={handleButtonClick}
+          />
+        )}
     </div>
   );
 };
