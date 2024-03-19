@@ -18,6 +18,7 @@ interface GameState {
   currentCategory: string;
   options: string[];
   loopCount: number;
+  history: string[];
 }
 
 const GameUI: React.FC<GameUIProps> = ({
@@ -90,6 +91,7 @@ const GameUI: React.FC<GameUIProps> = ({
         currentCategory: updatedCategory,
         options: newItems,
         loopCount: gameState.loopCount + 1,
+        history: [...gameState.history, selectedItem],
       });
     } catch (error) {
       console.error(error);
@@ -103,6 +105,7 @@ const GameUI: React.FC<GameUIProps> = ({
     currentCategory: initCategory,
     options: initOptions,
     loopCount: 0,
+    history: [initItem],
   };
 
   const [isClient, setIsClient] = useState(false);
