@@ -124,7 +124,8 @@ const GameUI: React.FC<GameUIProps> = ({
   ];
 
   return (
-    <div className="z-10 max-w-lg font-mono text-sm text-slate-900">
+    <div className="font-mono text-sm text-slate-900">
+      <div className="z-10 max-w-lg ">
         <p className="static w-auto my-10 p-4 border-b border-gray-400">
           {dialogue.map((txt, i) => (
             <span key={i}>
@@ -143,6 +144,13 @@ const GameUI: React.FC<GameUIProps> = ({
             handleButtonClick={handleButtonClick}
           />
         )}
+      </div>
+      <button
+        className="border-t border-l border-gray-400 py-1 px-2 bg-transparent absolute bottom-0 right-0"
+        onClick={() => setGameState(initState)}
+      >
+        Reset
+      </button>
     </div>
   );
 };
