@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { queryOptions, queryValue } from "./QueryData";
+import { queryValue, queryOptions } from "./QueryData";
 import OptionList from "./OptionList/OptionList";
 import CATEGORIES from "./Categories";
-import { getOptionsPrompt, getValuePrompt } from "./Prompts";
-import { init } from "next/dist/compiled/webpack/webpack";
 
 interface GameUIProps {
   initItem: string;
@@ -46,10 +44,9 @@ const GameUI: React.FC<GameUIProps> = ({
   };
 
   const updateCategory = async (newItem: string) => {
-    const valuePrompt = getValuePrompt(newItem);
     let newValue: number = 0;
     try {
-      const boundEstimates = await queryValue(valuePrompt);
+      const boundEstimates = await queryValue(newItem);
       newValue =
         Math.floor(
           Math.random() *
