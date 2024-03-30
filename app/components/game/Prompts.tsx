@@ -17,7 +17,7 @@ category: ${category}
 JSON output:`;
 
 export const getValuePrompt = (item: string): string =>
-  `Estimate generous upper and lower bound values in USD for the given item.
+  `Estimate generous lower and upper bound values in USD for the given item.
 Output only 2 raw numbers separated by a space.
 
 ⚡ 2 brand new electric cars:
