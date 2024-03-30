@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { queryOptions, queryValue } from "../LLMAPI/ChatGPT";
+import { queryOptions, queryValue } from "./QueryData";
 import OptionList from "./OptionList/OptionList";
 import CATEGORIES from "./Categories";
 import { getOptionsPrompt, getValuePrompt } from "./Prompts";
@@ -83,9 +83,11 @@ const GameUI: React.FC<GameUIProps> = ({
         ? await updateCategory(selectedItem)
         : gameState.currentCategory;
 
-    const prompt: string = getOptionsPrompt(selectedItem, updatedCategory);
     try {
-      const newItems: string[] = await queryOptions(prompt);
+      const newItems: string[] = await queryOptions(
+        selectedItem,
+        updatedCategory
+      );
       setGameState({
         currentItem: selectedItem,
         currentCategory: updatedCategory,
