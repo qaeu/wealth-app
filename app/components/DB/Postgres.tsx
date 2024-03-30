@@ -2,11 +2,37 @@
 
 import { sql } from "@vercel/postgres";
 
+type Value = {
+  lower_bound: number;
+  upper_bound: number;
+};
+
 type Options = {
   option_1: string;
   option_2: string;
   option_3: string;
   option_4: string;
+};
+
+export const queryValue = async (item: string) => {
+  const rowcount = await sql`SELECT COUNT(*) FROM values WHERE item = ${item};`;
+  if (rowcount.rows[0].count > 0) {
+    const { rows } = await sql<Value>`SELECT lower_bound, upper_bound
+    FROM values WHERE item = ${item} LIMIT 1;`;
+    const value = rows[0];
+
+    return [value.lower_bound, value.upper_bound];
+  }
+
+  return null;
+};
+
+export const insertValue = (item: string, value: number[]) => {
+  sql`INSERT INTO values 
+    (item, lower_bound, upper_bound)
+    VALUES (
+      ${item}, ${value[0]}, ${value[1]}
+    );`;
 };
 
 export const queryOptions = async (item: string) => {
