@@ -6,20 +6,19 @@ import { getOptionsPrompt } from "./Prompts";
 const Game = async () => {
   const startItem: string = "📎 a paperclip";
   const startCategory: string = CATEGORIES[0].titles[0];
-  let tradeOptions: string[] = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const startOptions: string[] = [
+    "🍬 a gummy bear",
+    "📝 a single sheet of A5 paper",
+    "🌱 some carrot seeds",
+    "🐜 an ant",
+  ];
   const prompt: string = getOptionsPrompt(startItem, startCategory);
-
-  try {
-    tradeOptions = await queryOptions(prompt);
-  } catch (error) {
-    console.error(error);
-  }
 
   return (
     <GameUI
       initItem={startItem}
       initCategory={startCategory}
-      initOptions={tradeOptions}
+      initOptions={startOptions}
     />
   );
 };
