@@ -5,15 +5,20 @@ import { queryValue, queryOptions } from "./QueryData";
 import OptionList from "./OptionList/OptionList";
 import CATEGORIES from "./Categories";
 
+interface CurrentCategory {
+  title: string;
+  breakpoint: number;
+}
+
 interface GameUIProps {
   initItem: string;
-  initCategory: string;
+  initCategory: CurrentCategory;
   initOptions: string[];
 }
 
 interface GameState {
   currentItem: string;
-  currentCategory: string;
+  currentCategory: CurrentCategory;
   options: string[];
   loopCount: number;
   history: string[];
@@ -57,16 +62,22 @@ const GameUI: React.FC<GameUIProps> = ({
       return gameState.currentCategory;
     }
 
-    let bestCat = CATEGORIES[0];
-    for (const cat of CATEGORIES) {
-      if (newValue >= cat.breakpoint) {
-        bestCat = cat;
-      } else {
-        break;
-      }
-    }
+    const currentCatIndex = Math.max(
+      0,
+      CATEGORIES.findIndex(
+        (cat) => gameState.currentCategory.breakpoint <= cat.breakpoint
+      )
+    );
+    const bestCat =
+      CATEGORIES.slice(currentCatIndex - 1, CATEGORIES.length).find(
+        (cat) => newValue < cat.breakpoint
+      ) || CATEGORIES[CATEGORIES.length - 1];
+
     const randomIndex = Math.floor(Math.random() * bestCat.titles.length);
-    return bestCat.titles[randomIndex];
+    return {
+      title: bestCat.titles[randomIndex],
+      breakpoint: bestCat.breakpoint,
+    };
   };
 
   const handleButtonClick = async (buttonText: string) => {
@@ -83,7 +94,7 @@ const GameUI: React.FC<GameUIProps> = ({
     try {
       const newItems: string[] = await queryOptions(
         selectedItem,
-        updatedCategory
+        updatedCategory.title
       );
       setGameState({
         currentItem: selectedItem,
