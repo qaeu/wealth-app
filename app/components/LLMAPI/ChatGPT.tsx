@@ -8,7 +8,7 @@ interface ValueEstimate {
   upperBound: number;
 }
 
-const MODEL = "gpt-3.5-turbo";
+const MODEL = "gpt-4o-mini";
 const IGNORE_STRINGS: string[] = ["a", "an", " of"];
 const PARAMS = {
   maxTokens: 70,
